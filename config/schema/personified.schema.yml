@@ -11,3 +11,33 @@ personified.template.*:
     markup:
       type: text
       label: 'Template markup'
+
+block.settings.personified:
+  type: block_settings
+  label: 'Personified'
+  mapping:
+    endpoint:
+      type: string
+      label: 'Endpoint'
+    template:
+      type: string
+      label: 'Template'
+    params:
+      type: sequence
+      label: 'Parameters'
+      sequence:
+        type: mapping
+        label: 'Parameter'
+        mapping:
+          source_type:
+            type: string
+            label: 'Source type'
+          source_key:
+            type: string
+            label: 'Source key'
+          endpoint_key:
+            type: string
+            label: 'Endpoint key'
+          default_value:
+            type: string
+            label: 'Default value'

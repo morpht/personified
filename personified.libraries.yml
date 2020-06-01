@@ -1,0 +1,17 @@
+handlebars:
+  remote: https://github.com/handlebars-lang/handlebars.js
+  version: 4.7.6
+  license:
+    name: MIT
+    gpl-compatible: true
+  js:
+    https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js: { type: external, minified: true }
+
+init:
+  js:
+    js/personified.init.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.cookie
+    - core/drupal
+    - personified/handlebars

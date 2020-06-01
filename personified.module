@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Personified module.
+ */
+
+use Drupal\Component\Utility\Html;
+
+/**
+ * Implements hook_theme().
+ */
+function personified_theme() {
+  return [
+    'personified' => [
+      'variables' => [
+        'endpoint' => NULL,
+        'template' => NULL,
+        'params' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for a Personified template.
+ *
+ * Default template: personified.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - content: An array of block types.
+ */
+function template_preprocess_personified(&$variables) {
+  $counter = &drupal_static(__FUNCTION__, 0);
+  $id = Html::getId('personified-' . $counter++);
+
+  $variables['attributes']['id'] = $id;
+  $variables['#attached']['library'] = 'personified/init';
+  $variables['#attached']['drupalSettings']['personified'][$id] = [
+    'endpoint' => $variables['endpoint'],
+    'template' => $variables['template'],
+    'params' => $variables['params'],
+  ];
+}
