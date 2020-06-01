@@ -1,0 +1,11 @@
+{
+  "name": "drupal/personified",
+  "description": "Provides configurable blocks to render JSON results.",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "homepage": "https://www.drupal.org/project/personified",
+  "support": {
+    "issues": "https://www.drupal.org/project/issues/personified",
+    "source": "https://github.com/morpht/personified"
+  }
+}

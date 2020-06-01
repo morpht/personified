@@ -1,0 +1,7 @@
+name: Personified
+type: module
+description: Provides configurable blocks to render JSON results.
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Other
+configure: entity.personified_template.collection
