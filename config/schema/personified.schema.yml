@@ -1,0 +1,13 @@
+personified.template.*:
+  type: config_entity
+  label: 'Personified template'
+  mapping:
+    id:
+      type: string
+      label: 'Machine-readable name'
+    label:
+      type: label
+      label: 'Name'
+    markup:
+      type: text
+      label: 'Template markup'

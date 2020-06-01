@@ -1,0 +1,5 @@
+entity.personified_template.add_form:
+  title: 'Add template'
+  route_name: entity.personified_template.add_form
+  appears_on:
+    - entity.personified_template.collection
