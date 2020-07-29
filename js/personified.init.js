@@ -17,14 +17,12 @@
       $.each(settings.personified, function (id, args) {
         var element = $('#' + id, context);
         if (element.length) {
-          console.debug('Personified: Initialization of "' + id + '".');
-
           var urlParams = {};
           $.each(args.params, function (id, param) {
             var value;
             switch (param.source_type) {
               case 'query':
-                value = personifiedQueryParam(param.source_key);
+                value = getQueryParam(param.source_key);
                 break;
               case 'cookie':
                 value = $.cookie(param.source_key);
@@ -33,7 +31,7 @@
                 value = localStorage.getItem(param.source_key);
                 break;
               case 'data_layer':
-                value = personifiedDataLayerParam(param.source_key);
+                value = getDataLayerParam(param.source_key);
                 break;
               case 'window':
                 value = window[param.source_key];
@@ -62,9 +60,7 @@
                   return;
                 }
               }
-              var template = settings.personifiedTemplate[args.template];
-              var compiled = Handlebars.compile(template);
-              element.html(compiled(data));
+              element.html(Drupal.jsonTemplate.render(data, args.template));
             },
             error: function (jqXHR, textStatus, errorThrown) {
               console.debug('Personified: JSON data not available for endpoint "' + this.url + '".');
@@ -73,7 +69,7 @@
         }
       });
 
-      function personifiedQueryParam(key) {
+      function getQueryParam(key) {
         var params = window.location.search.substring(1).split('&');
         for (var i = 0; i < params.length; i++) {
           var param = params[i].split('=');
@@ -83,7 +79,7 @@
         }
       }
 
-      function personifiedDataLayerParam(key) {
+      function getDataLayerParam(key) {
         if (typeof window.google_tag_manager !== 'undefined') {
           var gtm = window.google_tag_manager;
           for (var name in gtm) {

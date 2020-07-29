@@ -1,0 +1,9 @@
+<ul>
+  {{#each this}}
+    {{#if url}}
+      <li><a href="{{url}}">{{title}}</a></li>
+    {{else}}
+      <li>{{title}}</li>
+    {{/if}}
+  {{/each}}
+</ul>

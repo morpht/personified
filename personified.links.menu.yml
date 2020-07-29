@@ -1,6 +1,0 @@
-entity.personified_template.collection:
-  title: 'Personified templates'
-  description: 'Manage Personified templates.'
-  route_name: entity.personified_template.collection
-  parent: block.admin_display
-  weight: 5

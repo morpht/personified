@@ -14,9 +14,9 @@ function personified_theme() {
   return [
     'personified' => [
       'variables' => [
-        'endpoint' => NULL,
-        'template' => NULL,
-        'params' => NULL,
+        'endpoint' => '',
+        'template' => '',
+        'params' => [],
       ],
     ],
   ];

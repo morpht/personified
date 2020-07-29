@@ -1,0 +1,7 @@
+personified_titles:
+  title: 'Personified titles'
+  description: 'Simple Handlebars template for Personified.'
+  file: handlebars/personified-titles.html.hbs
+  transformer: handlebars
+  available_for:
+    - personified

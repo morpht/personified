@@ -5,3 +5,5 @@ core: 8.x
 core_version_requirement: ^8 || ^9
 package: Other
 configure: entity.personified_template.collection
+dependencies:
+  - json_template:json_template

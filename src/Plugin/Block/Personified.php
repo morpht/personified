@@ -4,10 +4,9 @@ namespace Drupal\personified\Plugin\Block;
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Link;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\json_template\Plugin\JsonTemplateManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -22,11 +21,11 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class Personified extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
-   * The Personified template entity storage.
+   * The JSON template manager.
    *
-   * @var \Drupal\Core\Config\Entity\ConfigEntityStorageInterface
+   * @var \Drupal\json_template\Plugin\JsonTemplateManagerInterface
    */
-  protected $templateStorage;
+  protected $jsonTemplate;
 
   /**
    * Constructs a new Personified instance.
@@ -37,13 +36,13 @@ class Personified extends BlockBase implements ContainerFactoryPluginInterface {
    *   The plugin_id for the plugin instance.
    * @param mixed $plugin_definition
    *   The plugin implementation definition.
-   * @param \Drupal\Core\Config\Entity\ConfigEntityStorageInterface $template_storage
-   *   The Personified template entity storage.
+   * @param \Drupal\json_template\Plugin\JsonTemplateManagerInterface $json_template
+   *   The JSON template manager.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigEntityStorageInterface $template_storage) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, JsonTemplateManagerInterface $json_template) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
 
-    $this->templateStorage = $template_storage;
+    $this->jsonTemplate = $json_template;
   }
 
   /**
@@ -54,7 +53,7 @@ class Personified extends BlockBase implements ContainerFactoryPluginInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity_type.manager')->getStorage('personified_template')
+      $container->get('plugin.manager.json_template.template')
     );
   }
 
@@ -77,13 +76,9 @@ class Personified extends BlockBase implements ContainerFactoryPluginInterface {
 
     // Get all defined templates.
     $template_options = [];
-    foreach ($this->templateStorage->loadMultiple() as $template) {
-      $template_options[$template->id()] = $template->label();
+    foreach ($this->jsonTemplate->getDefinitionsForId('personified') as $template) {
+      $template_options[$template['id']] = $template['title'];
     }
-
-    // Prepare description links.
-    $templates_link = Link::createFromRoute('Manage templates', 'entity.personified_template.collection')
-      ->toString();
 
     $form['endpoint'] = [
       '#type' => 'textfield',
@@ -95,9 +90,7 @@ class Personified extends BlockBase implements ContainerFactoryPluginInterface {
     $form['template'] = [
       '#type' => 'select',
       '#title' => $this->t('Template'),
-      '#description' => $this->t('The template to use to display the results. @link.', [
-        '@link' => $templates_link,
-      ]),
+      '#description' => $this->t('The template to use to display the results.'),
       '#options' => $template_options,
       '#default_value' => $config['template'],
       '#required' => TRUE,
@@ -242,9 +235,7 @@ class Personified extends BlockBase implements ContainerFactoryPluginInterface {
    * {@inheritdoc}
    */
   public function build() {
-    /** @var \Drupal\personified\PersonifiedTemplateInterface $template */
-    $template = $this->templateStorage->load($this->configuration['template']);
-    if (empty($template)) {
+    if (!$this->jsonTemplate->hasDefinition($this->configuration['template'])) {
       return [
         '#type' => 'markup',
         '#markup' => $this->t('Template "@id" was not found.', [
@@ -252,19 +243,16 @@ class Personified extends BlockBase implements ContainerFactoryPluginInterface {
         ]),
       ];
     }
-    return [
+    $build = [
       '#theme' => 'personified',
       '#endpoint' => $this->configuration['endpoint'],
       '#template' => $this->configuration['template'],
       '#params' => $this->configuration['params'],
-      '#attached' => [
-        'drupalSettings' => [
-          'personifiedTemplate' => [
-            $this->configuration['template'] => $template->getMarkup(),
-          ],
-        ],
-      ],
     ];
+    /** @var \Drupal\json_template\Plugin\JsonTemplateInterface $plugin */
+    $plugin = $this->jsonTemplate->createInstance($this->configuration['template']);
+    $plugin->attach($build);
+    return $build;
   }
 
 }
