@@ -12,7 +12,7 @@ use Drupal\Component\Utility\Html;
  */
 function personified_theme() {
   return [
-    'personified' => [
+    'personified_data' => [
       'variables' => [
         'endpoint' => '',
         'template' => '',
@@ -23,17 +23,17 @@ function personified_theme() {
 }
 
 /**
- * Prepares variables for a Personified template.
+ * Prepares variables for a Personified Data template.
  *
- * Default template: personified.html.twig.
+ * Default template: personified-data.html.twig.
  *
  * @param array $variables
  *   An associative array containing:
  *   - content: An array of block types.
  */
-function template_preprocess_personified(&$variables) {
+function template_preprocess_personified_data(&$variables) {
   $counter = &drupal_static(__FUNCTION__, 0);
-  $id = Html::getId('personified-' . $counter++);
+  $id = Html::getId('personified-data-' . $counter++);
 
   $variables['attributes']['id'] = $id;
   $variables['#attached']['library'] = 'personified/init';

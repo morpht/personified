@@ -10,15 +10,15 @@ use Drupal\json_template\Plugin\JsonTemplateManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Provides a 'Personified' block.
+ * Provides a 'Personified Data' block.
  *
  * @Block(
- *   id = "personified",
- *   admin_label = @Translation("Personified"),
+ *   id = "personified_data",
+ *   admin_label = @Translation("Personified Data"),
  *   category = @Translation("Search")
  * )
  */
-class Personified extends BlockBase implements ContainerFactoryPluginInterface {
+class PersonifiedData extends BlockBase implements ContainerFactoryPluginInterface {
 
   /**
    * The JSON template manager.
@@ -28,7 +28,7 @@ class Personified extends BlockBase implements ContainerFactoryPluginInterface {
   protected $jsonTemplate;
 
   /**
-   * Constructs a new Personified instance.
+   * Constructs a new PersonifiedData instance.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -244,7 +244,7 @@ class Personified extends BlockBase implements ContainerFactoryPluginInterface {
       ];
     }
     $build = [
-      '#theme' => 'personified',
+      '#theme' => 'personified_data',
       '#endpoint' => $this->configuration['endpoint'],
       '#template' => $this->configuration['template'],
       '#params' => $this->configuration['params'],

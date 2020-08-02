@@ -1,6 +1,6 @@
-block.settings.personified:
+block.settings.personified_data:
   type: block_settings
-  label: 'Personified'
+  label: 'Personified Data'
   mapping:
     endpoint:
       type: string
