@@ -19,6 +19,12 @@ function personified_theme() {
         'params' => [],
       ],
     ],
+    'personified_message' => [
+      'variables' => [
+        'template' => '',
+        'transformer' => '',
+      ],
+    ],
   ];
 }
 
@@ -36,10 +42,31 @@ function template_preprocess_personified_data(&$variables) {
   $id = Html::getId('personified-data-' . $counter++);
 
   $variables['attributes']['id'] = $id;
-  $variables['#attached']['library'] = 'personified/init';
-  $variables['#attached']['drupalSettings']['personified'][$id] = [
+  $variables['#attached']['library'][] = 'personified/data';
+  $variables['#attached']['drupalSettings']['personifiedData'][$id] = [
     'endpoint' => $variables['endpoint'],
     'template' => $variables['template'],
     'params' => $variables['params'],
+  ];
+}
+
+/**
+ * Prepares variables for a Personified Message template.
+ *
+ * Default template: personified-message.html.twig.
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - content: An array of block types.
+ */
+function template_preprocess_personified_message(&$variables) {
+  $counter = &drupal_static(__FUNCTION__, 0);
+  $id = Html::getId('personified-message-' . $counter++);
+
+  $variables['attributes']['id'] = $id;
+  $variables['#attached']['library'][] = 'personified/message';
+  $variables['#attached']['drupalSettings']['personifiedMessage'][$id] = [
+    'template' => $variables['template'],
+    'transformer' => $variables['transformer'],
   ];
 }

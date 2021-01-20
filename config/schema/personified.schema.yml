@@ -27,3 +27,14 @@ block.settings.personified_data:
           default_value:
             type: string
             label: 'Default value'
+
+block.settings.personified_message:
+  type: block_settings
+  label: 'Personified Message'
+  mapping:
+    template:
+      type: string
+      label: 'Template'
+    transformer:
+      type: string
+      label: 'transformer'

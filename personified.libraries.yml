@@ -1,8 +1,15 @@
-init:
+data:
   js:
-    js/personified.init.js: {}
+    js/personified.data.js: {}
   dependencies:
     - core/jquery
     - core/jquery.cookie
     - core/drupal
-    - json_template/handlebars
+
+message:
+  js:
+    js/personified.message.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.cookie
+    - core/drupal

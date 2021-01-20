@@ -1,20 +1,20 @@
 /**
  * @file
- * Initializes all Personified blocks.
+ * Initializes all Personified Data blocks.
  */
 
 (function ($, Drupal) {
 
   'use strict';
 
-  Drupal.behaviors.personified = {
+  Drupal.behaviors.personifiedData = {
     attach: function attach(context, settings) {
 
-      if (typeof settings.personified === 'undefined') {
+      if (typeof settings.personifiedData === 'undefined') {
         return;
       }
 
-      $.each(settings.personified, function (id, args) {
+      $.each(settings.personifiedData, function (id, args) {
         var element = $('#' + id, context);
         if (element.length) {
           var urlParams = {};
